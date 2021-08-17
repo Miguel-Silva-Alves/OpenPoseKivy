@@ -1,3 +1,6 @@
+import os
+os.environ['KIVY_GL_BACKEND'] = 'angle_sdl2'
+
 import mediapipe as mp
 import cv2
 import time
@@ -353,9 +356,6 @@ class Aplicativo(App):
 		self.selection = selection
 		self.callback(selection[0])
     	
-
-    
-
 	def build(self):
 		box = BoxLayout()
 		but = Button(text='Arquivos')
