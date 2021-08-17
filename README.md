@@ -22,6 +22,6 @@
  
  git clone https://github.com/Miguel-Silva-Alves/OpenPoseKivy.git
  
- cd Chakra_yoga
+ cd OpenPoseKivy
  
  pip install -r requirements.txt 
