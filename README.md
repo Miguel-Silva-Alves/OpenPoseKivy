@@ -18,12 +18,10 @@
      
      python -m pip install kivy[full]
  
+     git clone https://github.com/Miguel-Silva-Alves/OpenPoseKivy.git
      
- 
- git clone https://github.com/Miguel-Silva-Alves/OpenPoseKivy.git
- 
- cd OpenPoseKivy
- 
- pip install -r requirements.txt
- 
- python webcam_pose_with_difficulty.py
+     cd OpenPoseKivy
+     
+     pip install -r requirements.txt
+     
+     python webcam_pose_with_difficulty.py
