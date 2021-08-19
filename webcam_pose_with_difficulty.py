@@ -75,7 +75,7 @@ class Aplicativo(App):
 	#função que eu criei para mostrar em uma especie de logger
 	def loggar(self, string):
 		print(string)
-		arquivo = open('arq01.txt','a')
+		arquivo = open(app_folder+'/arq01.txt','a')
 		if type(string) == list:
 			new = ''
 			for ele in string:
@@ -212,6 +212,9 @@ class Aplicativo(App):
 		self.frame_width = int(self.cap.get(3))
 		self.frame_height = int(self.cap.get(4))
 		self.fourcc=cv2.VideoWriter_fourcc('M','J','P','G')
+		self.loggar("TAMANHO:")
+		self.loggar(self.frame_width)
+		self.loggar(self.frame_height)
 		self.out = cv2.VideoWriter(self.path+'yoga_test.avi',self.fourcc, 20, (self.frame_width,self.frame_height))
 		while(True):
 			with self.mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.1, model_complexity=1) as pose:
@@ -233,21 +236,21 @@ class Aplicativo(App):
 				#paste example image on input image
 				self.loggar("example pose : ")
 				self.loggar(self.current_pose_list[self.current_pose])
-				img = cv2.imread(app_folder+'/'+self.current_pose_list[self.current_pose])	
+				#img = cv2.imread(app_folder+'/'+self.current_pose_list[self.current_pose])	
 				#adjust example size
-				ratio = img.shape[0]/img.shape[1]
-				self.loggar("ratio = ")
-				self.loggar(ratio)
-				example_width = 200
-				example_height = int((200 * ratio))
-				img = cv2.resize(img,(example_width,example_height),interpolation = cv2.INTER_AREA)
-				x_offset = image.shape[1] - example_width
-				y_offset = image.shape[0]-example_height
-				x_end = image.shape[1]
-				y_end = image.shape[0]
+				#ratio = img.shape[0]/img.shape[1]
+				#self.loggar("ratio = ")
+				#self.loggar(ratio)
+				#example_width = 200
+				#example_height = int((200 * ratio))
+				#img = cv2.resize(img,(example_width,example_height),interpolation = cv2.INTER_AREA)
+				#x_offset = image.shape[1] - example_width
+				#y_offset = image.shape[0]-example_height
+				#x_end = image.shape[1]
+				#y_end = image.shape[0]
 				#put black rectange on right side
-				cv2.rectangle(image,((image.shape[1]-180),0), (image_width,image_hight),(0,0,0),-1)
-				image[y_offset:y_end,x_offset:x_end] = img
+				#cv2.rectangle(image,((image.shape[1]-180),0), (image_width,image_hight),(0,0,0),-1)
+				#image[y_offset:y_end,x_offset:x_end] = img
 				
 				#track desired body part and only use needed landmarks
 				body_part = 0
@@ -289,31 +292,13 @@ class Aplicativo(App):
 					self.loggar(self.avg_pose_percent_array)
 					self.loggar("avg percent:")
 					self.loggar(avg_percent)
-					avg_percent_string = str(avg_percent)
 
-					#get graded score
-					pose_scoring = self.calculate_score(int(avg_percent))
-					self.loggar("pose scoring")
-					self.loggar(pose_scoring)
 
 					pose_class = self.pose_name(int(self.current_pose_numbers[self.current_pose]))
 					pose_class = pose_class.rstrip(pose_class[-1])
 					
 
-					#control timer
-					time_remaining = self.countdown_timer(desired_pose,avg_percent)
-					if self.timer_started == True:
-						cv2.putText(annotated_image, "Time: " + str(int(time_remaining)), ((x_offset +20), (y_offset-30)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 1, cv2.LINE_AA,bottomLeftOrigin = False)
-					else:
-						cv2.putText(annotated_image, "Ready", ((x_offset +20), (y_offset-30)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 1, cv2.LINE_AA,bottomLeftOrigin = False)
-					# cv2.putText(annotated_image, pose_scoring, ((x_offset +20), (y_offset-95)), cv2.FONT_HERSHEY_SIMPLEX, 1, (50, 255, 50), 1, cv2.LINE_AA,bottomLeftOrigin = False)	
-					cv2.putText(annotated_image, "#" + str(desired_pose) + ":" + pose_class, ((x_offset +20), (y_offset-5)), cv2.FONT_HERSHEY_SIMPLEX, .5, (255, 255, 255), 1, cv2.LINE_AA,bottomLeftOrigin = False)
 					
-					cv2.putText(annotated_image, "Current: " + avg_percent_string, ((x_offset +20), (y_offset-145)), cv2.FONT_HERSHEY_SIMPLEX, .5, (255, 255, 255), 1, cv2.LINE_AA,bottomLeftOrigin = False)
-					cv2.putText(annotated_image, "Begin: " + str(self.pose_callibrations[desired_pose][2]), ((x_offset +20), (y_offset-125)), cv2.FONT_HERSHEY_SIMPLEX, .5, (255, 255, 255), 1, cv2.LINE_AA,bottomLeftOrigin = False)
-					cv2.putText(annotated_image, "Goal: " + str(self.pose_callibrations[desired_pose][1]), ((x_offset +20), (y_offset-105)), cv2.FONT_HERSHEY_SIMPLEX, .5, (255, 255, 255), 1, cv2.LINE_AA,bottomLeftOrigin = False)
-
-
 
 					#cv2.putText(annotated_image, "Change pose <- or -> key", (50, image_hight-20), cv2.FONT_HERSHEY_SIMPLEX, .75, (100, 150, 255), 2, cv2.LINE_AA,bottomLeftOrigin = False)
 
